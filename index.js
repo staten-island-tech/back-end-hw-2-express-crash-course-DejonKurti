@@ -7,31 +7,35 @@ const app = express();
 
 
 // Init middleware
-app.use(logger);
+//app.use(logger);
 /* app.get('/', (req, res) => {
     //res.send('<h1>Hello World</h1>');
     //res.sendFile(path.join(__dirnme, 'public', 'index.html'));  loads HTML file
 }); */
 
 
-//Gets all members
-app.get('/api/members', (req, res) => {
-    res.json(members);
-})
-
-//Get Single Member
-app.get('/api/members/:id', (req, res) => {
-    const found = members.some(member => member.id === parseInt(req.params.id));
-
-    if(found) {
-        res.json(members.filter(member => member.id === parseInt(req.params.id)))
-    } else {
-        res.status(400).json({ msg: `No member with the ID of ${req.params.id}`});
-    }
-});
-
 //Set static folder (prob wont do this)
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Handlebars Middleware
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
+// Body Parser Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Homepage Route
+app.get('/', (req, res) =>
+    res.render('index', {
+        title: 'Member App',
+        members
+    })
+);
+
+// Members API Routes
+app.use('/api/members', require('./routes/api/members'));
 
 const PORT = process.env.PORT || 5000;
 
