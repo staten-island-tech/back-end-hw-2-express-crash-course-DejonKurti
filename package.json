@@ -20,7 +20,7 @@
   "homepage": "https://github.com/staten-island-tech/back-end-hw-2-express-crash-course-DejonKurti#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "moment": "^2.24.0"
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
